@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة اشتراكات التأمينات الاجتماعية — جمعية تحفيظ القرآن الكريم بوادي ليه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0f5c4a;--g2:#167a62;--gl:#e6f2ee;--gold:#b88a2e;--ink:#1d2a26;--mut:#5f6f69;--line:#dde6e2;--bg:#f6f8f7;--red:#b42318;--redl:#fdecea;--amb:#fff6e0;--card:#fff;--emp:#167a62;--er:#b88a2e}
+*{box-sizing:border-box}
+body{margin:0;font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+header{background:linear-gradient(135deg,#0b4638,#167a62);color:#fff;padding:22px 20px 0}
+.wrap{max-width:1180px;margin:0 auto}
+header h1{margin:0;font-size:22px;font-weight:700}
+header p{margin:4px 0 14px;opacity:.85;font-size:13.5px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#d8ece5;text-decoration:none;padding:10px 16px;border-radius:10px 10px 0 0;font-weight:600;font-size:14px}
+nav a.on{background:var(--bg);color:var(--g)}
+main{padding:20px}
+section{display:none}section.on{display:block}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:860px){.g2,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h2{margin:0 0 12px;font-size:17px;color:var(--g)}
+.card h3{margin:16px 0 8px;font-size:15px}
+label{display:block;font-weight:600;font-size:13.5px;margin:10px 0 4px}
+.hint{font-size:12.5px;color:var(--mut);font-weight:400}
+input,select{width:100%;padding:9px 11px;border:1px solid #c9d6d1;border-radius:9px;font:inherit;background:#fff}
+input:focus,select:focus{outline:2px solid #9fd0c1;border-color:var(--g2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;border:1px solid #c9d6d1;border-radius:9px;overflow:hidden}
+.seg button{flex:1;border:0;background:#fff;padding:9px 6px;font:inherit;font-weight:600;cursor:pointer;color:var(--mut)}
+.seg button.on{background:var(--g);color:#fff}
+.btn{border:0;background:var(--g);color:#fff;padding:9px 16px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer}
+.btn.sec{background:#fff;color:var(--g);border:1px solid var(--g)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn.del{background:#fff;color:var(--red);border:1px solid #f0c4c0}
+.note{padding:10px 12px;border-radius:9px;font-size:13.5px;margin:10px 0}
+.note.warn{background:var(--amb);border:1px solid #f1d58d}
+.note.err{background:var(--redl);border:1px solid #f3b8b2;color:var(--red)}
+.note.info{background:var(--gl);border:1px solid #bfe0d4}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.kpi{border-radius:12px;padding:12px;background:var(--gl)}
+.kpi b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--mut)}
+.kpi.e{background:#e7f4ef}.kpi.r{background:#fbf3e3}.kpi.t{background:#0f5c4a;color:#fff}.kpi.t span{color:#cfe8df}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:right}
+th{background:#f0f5f3;font-weight:600;color:#33433e;position:sticky;top:0}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;direction:ltr}
+tfoot td{font-weight:700;background:#f7faf9}
+.tw{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:10px}
+.tw input,.tw select{padding:5px 6px;font-size:13px;min-width:70px}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;font-weight:600}
+.tag.ok{background:#e1f3ea;color:#18794e}.tag.bad{background:var(--redl);color:var(--red)}.tag.mid{background:var(--amb);color:#8a5a00}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar .sp{flex:1}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:#eef2f0;margin:4px 0 2px}
+.bar i{display:block;height:100%}
+canvas{max-height:320px}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-left:5px;vertical-align:middle}
+.rep-h{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;border-bottom:2px solid var(--g);padding-bottom:10px;margin-bottom:14px}
+.rep-h h2{margin:0}
+.muted{color:var(--mut)}
+a{color:var(--g2)}
+.toast{position:fixed;bottom:18px;left:18px;background:#1d2a26;color:#fff;padding:10px 16px;border-radius:9px;opacity:0;transition:.3s;pointer-events:none;font-size:14px}
+.toast.on{opacity:1}
+#rp-det td:first-child{min-width:190px}ul.rules{margin:0;padding-right:18px}ul.rules li{margin:5px 0}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>حاسبة اشتراكات التأمينات الاجتماعية</h1>
+  <p>جمعية تحفيظ القرآن الكريم بوادي ليه — حساب الاشتراكات الشهرية للموظفين والمعلمات (عقود قوى وعقود العمل المرن «مرن»)، مع تقارير وتوقعات</p>
+  <nav id="nav">
+    <a href="#calc" data-v="calc">الحاسبة الفردية</a>
+    <a href="#bulk" data-v="bulk">كشف الموظفين</a>
+    <a href="#reports" data-v="reports">التقارير</a>
+    <a href="#rules" data-v="rules">النسب والأنظمة</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+<!-- ============ single ============ -->
+<section id="v-calc">
+ <div class="grid g2">
+  <div class="card">
+   <h2>بيانات الموظف</h2>
+   <label>نوع العقد</label>
+   <div class="seg" id="s-type"><button data-v="std" class="on">عقد عادي (قوى)</button><button data-v="flex">عمل مرن (مرن)</button></div>
+   <label>الجنسية</label>
+   <div class="seg" id="s-nat"><button data-v="sa" class="on">سعودي</button><button data-v="non">غير سعودي</button></div>
+   <label>نظام التأمينات <span class="hint">— الجديد لمن بدأ اشتراكه أول مرة في 3 يوليو 2024 أو بعده</span></label>
+   <div class="seg" id="s-sys"><button data-v="new" class="on">الجديد</button><button data-v="old">السابق</button></div>
+   <label>شهر الاشتراك</label>
+   <input type="month" id="s-month">
+   <div id="std-f">
+     <div class="row">
+      <div><label>الراتب الأساسي (ريال)</label><input type="number" id="s-basic" min="0" step="0.01" value="4000"></div>
+      <div><label>بدل السكن النقدي (ريال)</label><input type="number" id="s-house" min="0" step="0.01" value="0"></div>
+     </div>
+     <div class="row">
+      <div><label>بدلات أخرى <span class="hint">(لا تخضع)</span></label><input type="number" id="s-other" min="0" step="0.01" value="0"></div>
+      <div><label>أيام الاشتراك في الشهر</label><input type="number" id="s-days" min="1" max="30" value="30"></div>
+     </div>
+     <label><input type="checkbox" id="s-inkind" style="width:auto"> سكن عيني <span class="hint">(يُحتسب بقيمة شهرين من الأساسي سنوياً = الأساسي ÷ 6 شهرياً)</span></label>
+   </div>
+   <div id="flex-f" class="hide">
+     <div class="row">
+      <div><label>إجمالي ساعات العمل في الشهر</label><input type="number" id="s-hours" min="0" max="160" step="1" value="32"></div>
+      <div><label>سعر الساعة (ريال)</label><input type="number" id="s-rate" min="0" step="1" value="50"></div>
+     </div>
+     <div class="row">
+      <div><label>الساعات الإضافية</label><input type="number" id="s-oth" min="0" max="65" step="1" value="0"></div>
+      <div><label>سعر الساعة الإضافية</label><input type="number" id="s-otr" min="0" step="1" value="0"></div>
+     </div>
+   </div>
+   <div id="s-msg"></div>
+  </div>
+  <div class="card">
+   <h2>اشتراكات الشهر</h2>
+   <div class="big">
+    <div class="kpi e"><span>يُخصم من راتب الموظف</span><b id="r-emp">0</b></div>
+    <div class="kpi r"><span>حصة الجمعية</span><b id="r-er">0</b></div>
+    <div class="kpi t"><span>مجموع الاشتراك (الموظف + الجمعية)</span><b id="r-tot">0</b></div>
+   </div>
+   <div class="bar" id="r-bar"></div>
+   <div class="legend"><span><i style="background:var(--emp)"></i>حصة الموظف</span><span><i style="background:var(--er)"></i>حصة الجمعية</span></div>
+   <h3>التفصيل حسب الفرع</h3>
+   <table><thead><tr><th>الفرع</th><th class="n">النسبة (موظف / جمعية)</th><th class="n">الموظف</th><th class="n">الجمعية</th><th class="n">المجموع (الموظف + الجمعية)</th></tr></thead><tbody id="r-tb"></tbody></table>
+   <h3>الملخص</h3>
+   <table><tbody id="r-sum"></tbody></table>
+  </div>
+ </div>
+</section>
+
+<!-- ============ bulk ============ -->
+<section id="v-bulk">
+ <div class="card">
+  <h2>كشف الموظفين</h2>
+  <p class="muted" style="margin-top:0">أدخلي الموظفين أو المجموعات (عمود «العدد» يسمح بإدخال مجموعة بنفس البيانات). البيانات المبدئية هي فئات معلمات «مرن» حسب الحل المقترح (84 معلمة)، بدون أسماء.</p>
+  <div class="toolbar">
+   <label style="margin:0">الشهر <input type="month" id="b-month" style="width:auto;display:inline-block"></label>
+   <label style="margin:0">تغيير النظام للجميع
+    <select id="b-sysall" style="width:auto;display:inline-block"><option value="">—</option><option value="new">الجديد</option><option value="old">السابق</option></select></label>
+   <span class="sp"></span>
+   <button class="btn sm" id="b-add">+ إضافة صف</button>
+   <label class="btn sec sm" style="margin:0">استيراد Excel / CSV<input type="file" id="b-file" accept=".xlsx,.xls,.csv" class="hide"></label>
+   <button class="btn sec sm" id="b-tpl">نسخ رؤوس القالب</button>
+   <button class="btn sec sm" id="b-reset">البيانات المبدئية</button>
+   <button class="btn del sm" id="b-clear">مسح الكل</button>
+  </div>
+  <div id="b-msg"></div>
+  <div class="tw"><table id="b-tab">
+   <thead><tr><th>الاسم / الفئة</th><th>العدد</th><th>نوع العقد</th><th>الجنسية</th><th>النظام</th><th>الأساسي</th><th>السكن</th><th>الساعات</th><th>سعر الساعة</th><th class="n">الأجر الخاضع</th><th class="n">الموظف (للفرد)</th><th class="n">الجمعية (للفرد)</th><th class="n">المجموع (للفرد)</th><th class="n">المجموع × العدد</th><th></th></tr></thead>
+   <tbody></tbody><tfoot></tfoot></table></div>
+  <p class="hint">في عقود «مرن» يُترك الأساسي والسكن فارغين، ويُحسب الأجر = الساعات × سعر الساعة. في العقود العادية تُترك الساعات فارغة.</p>
+ </div>
+</section>
+
+<!-- ============ reports ============ -->
+<section id="v-reports">
+ <div class="card">
+  <div class="rep-h">
+   <div><h2>تقرير اشتراكات التأمينات الاجتماعية</h2><div class="muted" id="rp-sub"></div></div>
+   <div class="toolbar" style="margin:0">
+    <select id="rp-kind" style="width:auto"><option value="all">كل العقود</option><option value="flex">عقود مرن فقط</option><option value="std">العقود العادية فقط</option></select>
+    <button class="btn sm" id="rp-copy">نسخ التقرير (للصق في Excel)</button>
+   </div>
+  </div>
+  <div class="grid g4" id="rp-kpi"></div>
+ </div>
+ <div class="grid g2" style="margin-top:16px">
+  <div class="card"><h2>حسب الفرع</h2><table id="rp-br"></table><div id="rp-flexdays"></div></div>
+  <div class="card"><h2>حسب نوع العقد والنظام</h2><table id="rp-grp"></table></div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>التوقع للأشهر القادمة <span class="hint">(مع زيادات نسبة المعاشات في النظام الجديد كل 1 يوليو)</span></h2>
+  <div class="toolbar"><label style="margin:0">عدد الأشهر <select id="rp-n" style="width:auto;display:inline-block"><option>12</option><option selected>24</option><option>36</option></select></label></div>
+  <canvas id="rp-chart"></canvas>
+  <div id="rp-nochart" class="hide note info">تعذّر تحميل الرسم البياني، والأرقام في الجدول أدناه.</div>
+  <h3>المجموع السنوي</h3>
+  <table id="rp-year"></table>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>تفصيل الموظفين</h2>
+  <div class="tw"><table id="rp-det"></table></div>
+ </div>
+</section>
+
+<!-- ============ rules ============ -->
+<section id="v-rules">
+ <div class="grid g2">
+  <div class="card">
+   <h2>نسب الاشتراك</h2>
+   <table>
+    <thead><tr><th>الفرع</th><th>الموظف</th><th>صاحب العمل</th><th>يشمل</th></tr></thead>
+    <tbody>
+     <tr><td>المعاشات — النظام السابق</td><td class="n">9%</td><td class="n">9%</td><td>السعودي</td></tr>
+     <tr><td>المعاشات — النظام الجديد</td><td class="n" colspan="2">تتدرج (الجدول أدناه)</td><td>السعودي</td></tr>
+     <tr><td>ساند (التعطل عن العمل)</td><td class="n">0.75%</td><td class="n">0.75%</td><td>السعودي في العقد العادي فقط</td></tr>
+     <tr><td>الأخطار المهنية</td><td class="n">—</td><td class="n">2%</td><td>الجميع</td></tr>
+    </tbody>
+   </table>
+   <h3>تدرج نسبة المعاشات في النظام الجديد (لكل طرف)</h3>
+   <table><thead><tr><th>من تاريخ</th><th class="n">النسبة</th></tr></thead><tbody id="rl-steps"></tbody></table>
+   <h3>العمل المرن «مرن»</h3>
+   <ul class="rules">
+    <li>للسعوديين فقط، والأجر بالساعة.</li>
+    <li>يخضع لفرعي المعاشات والأخطار المهنية فقط، دون ساند.</li>
+    <li>سعر الساعة أقل من 25 ريالاً: يُنشأ العقد لكن لا يُرسل للتأمينات.</li>
+    <li>الحد الأعلى 95 ساعة أساسية + 65 إضافية = 160 ساعة شهرياً لدى صاحب العمل الواحد.</li>
+    <li>كل 8 ساعات عمل = يوم اشتراك واحد، وما يقل عن 8 ساعات يبقى رصيداً، وكل 30 يوماً = شهر اشتراك.</li>
+   </ul>
+  </div>
+  <div class="card">
+   <h2>قواعد الحساب في الحاسبة</h2>
+   <ul class="rules">
+    <li><b>الأجر الخاضع</b> = الراتب الأساسي + بدل السكن النقدي (أو قيمة السكن العيني). البدلات الأخرى لا تخضع.</li>
+    <li><b>الحد الأعلى</b> للأجر الخاضع 45,000 ريال شهرياً، وما زاد لا يُحسب عليه اشتراك.</li>
+    <li><b>غير السعودي</b>: الأخطار المهنية 2% على صاحب العمل فقط.</li>
+    <li><b>الشهر الجزئي</b>: يُحسب الاشتراك بنسبة أيام الاشتراك من 30 يوماً.</li>
+    <li><b>التقريب</b>: كل فرع يُقرّب لأقرب هللة، والمجموع من الأرقام المقرّبة.</li>
+    <li>نسبة المعاشات في النظام الجديد تُحدّد بحسب الشهر المختار.</li>
+   </ul>
+   <div class="note warn">الحاسبة تقديرية لشهر كامل. الفاتورة الرسمية تصدر من منصة التأمينات، ولا تغطي الحاسبة: التسجيل المتأخر، والاشتراك الاختياري، ومواطني دول الخليج، ومضاعفة نسبة الأخطار للمنشآت المخالفة لاشتراطات السلامة.</div>
+   <h3>المراجع</h3>
+   <ul class="rules">
+    <li>نظام التأمينات الاجتماعية الصادر بالمرسوم الملكي م/273 وتاريخ 26/12/1445هـ.</li>
+    <li>الدليل الإجرائي للعمل المرن — <a href="https://uqn.gov.sa/details?p=24994">جريدة أم القرى</a>.</li>
+    <li><a href="https://www.gosi.gov.sa">المؤسسة العامة للتأمينات الاجتماعية</a> — <a href="https://mrn.sa">منصة مرن</a>.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const CAP=45000, SANED=0.0075, HAZ=0.02, OLD=0.09, MIN_RATE=25;
+const STEPS=[['2024-07',0.09],['2025-07',0.095],['2026-07',0.10],['2027-07',0.105],['2028-07',0.11]];
+const r2=x=>Math.round((x+1e-9)*100)/100;
+const fmt=x=>(x||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt0=x=>(x||0).toLocaleString('en-US',{maximumFractionDigits:0});
+const pct=x=>(Math.round(x*10000)/100)+'%';
+const AR_M=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const mName=m=>{const [y,mm]=m.split('-');return AR_M[+mm-1]+' '+y};
+function penRate(sys,m){ if(sys==='old') return OLD; let r=STEPS[0][1]; for(const [d,v] of STEPS) if(m>=d) r=v; return r;}
+function addM(m,k){let [y,mm]=m.split('-').map(Number);mm+=k;y+=Math.floor((mm-1)/12);mm=((mm-1)%12+12)%12+1;return y+'-'+String(mm).padStart(2,'0');}
+const now=new Date(); const CUR=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+
+// core calc for one person
+function calc(e,m){
+  const o={warn:[],penE:0,penR:0,sanE:0,sanR:0,haz:0,wage:0,subj:0,days:null,bal:null,pr:0};
+  const sa=e.nat!=='non', flex=e.type==='flex';
+  if(flex){
+    const h=+e.hours||0, rt=+e.rate||0, oh=+e.oth||0, ort=+e.otr||0;
+    o.wage=h*rt+oh*ort; o.subj=Math.min(o.wage,CAP);
+    o.days=Math.floor((h+oh)/8); o.bal=(h+oh)%8;
+    if(!sa) o.warn.push(['err','العمل المرن للسعوديين فقط: لا يمكن توثيق العقد لغير السعودي.']);
+    if(h>95) o.warn.push(['err','الساعات الأساسية تتجاوز 95 ساعة في الشهر.']);
+    if(h+oh>160) o.warn.push(['err','مجموع الساعات يتجاوز 160 ساعة في الشهر.']);
+    if(rt && rt!==Math.floor(rt)) o.warn.push(['warn','منصة مرن لا تقبل سعر ساعة بكسور.']);
+    if(h!==Math.floor(h)) o.warn.push(['warn','منصة مرن لا تقبل ساعات بكسور.']);
+    if(rt>0 && rt<MIN_RATE){o.warn.push(['err','سعر الساعة أقل من 25 ريالاً: يُنشأ العقد ولن يُرسل للتأمينات، فلا تُحسب اشتراكات.']); o.subj=0;}
+    if(!sa) o.subj=0;
+    const p=penRate(e.sys,m); o.pr=p;
+    o.penE=r2(o.subj*p); o.penR=r2(o.subj*p); o.haz=r2(o.subj*HAZ);
+  } else {
+    const b=+e.basic||0, hs=+e.house||0, d=Math.min(30,Math.max(1,+e.days||30));
+    const ink=e.inkind?b/6:0;
+    o.wage=b+hs+(+e.other||0); let s=b+hs+ink;
+    if(s>CAP){o.warn.push(['info','الأجر الخاضع يتجاوز 45,000: يُحسب الاشتراك على 45,000 فقط.']); s=CAP;}
+    s=s*d/30; o.subj=s;
+    const p=penRate(e.sys,m); o.pr=p;
+    if(sa){o.penE=r2(s*p);o.penR=r2(s*p);o.sanE=r2(s*SANED);o.sanR=r2(s*SANED);}
+    o.haz=r2(s*HAZ);
+  }
+  o.emp=r2(o.penE+o.sanE); o.er=r2(o.penR+o.sanR+o.haz); o.tot=r2(o.emp+o.er);
+  return o;
+}
+
+// ---------- toast ----------
+function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('on');setTimeout(()=>x.classList.remove('on'),2200);}
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('تم النسخ — الصقيه في Excel');}catch(e){toast('تعذّر النسخ من هذا المتصفح');}}
+
+// ---------- routing ----------
+const VIEWS=['calc','bulk','reports','rules'];
+function route(){const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'calc';
+  $$('section').forEach(s=>s.classList.toggle('on',s.id==='v-'+v)); $$('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  if(v==='reports') renderReports();}
+window.addEventListener('hashchange',route);
+
+// ---------- single ----------
+const S={type:'std',nat:'sa',sys:'new'};
+function seg(id,key){$$('#'+id+' button').forEach(b=>b.onclick=()=>{S[key]=b.dataset.v;$$('#'+id+' button').forEach(x=>x.classList.toggle('on',x===b));single();});}
+seg('s-type','type');seg('s-nat','nat');seg('s-sys','sys');
+$('#s-month').value=CUR;
+$$('#v-calc input').forEach(i=>i.addEventListener('input',single));
+function single(){
+  const flex=S.type==='flex'; $('#std-f').classList.toggle('hide',flex); $('#flex-f').classList.toggle('hide',!flex);
+  const m=$('#s-month').value||CUR;
+  const e={type:S.type,nat:S.nat,sys:S.sys,basic:$('#s-basic').value,house:$('#s-house').value,other:$('#s-other').value,days:$('#s-days').value,inkind:$('#s-inkind').checked,hours:$('#s-hours').value,rate:$('#s-rate').value,oth:$('#s-oth').value,otr:$('#s-otr').value};
+  const o=calc(e,m);
+  $('#r-emp').textContent=fmt(o.emp); $('#r-er').textContent=fmt(o.er); $('#r-tot').textContent=fmt(o.tot);
+  const t=o.tot||1; $('#r-bar').innerHTML=`<i style="width:${o.emp/t*100}%;background:var(--emp)"></i><i style="width:${o.er/t*100}%;background:var(--er)"></i>`;
+  const sa=S.nat!=='non', san=sa&&!flex;
+  $('#r-tb').innerHTML=[
+    ['المعاشات',sa?pct(o.pr)+' / '+pct(o.pr):'—',o.penE,o.penR],
+    ['ساند',san?'0.75% / 0.75%':'لا يشمل',o.sanE,o.sanR],
+    ['الأخطار المهنية','— / 2%',0,o.haz]
+  ].map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td class="n">${fmt(r[2])}</td><td class="n">${fmt(r[3])}</td><td class="n"><b>${fmt(r2(r[2]+r[3]))}</b></td></tr>`).join('')+
+  `<tr style="font-weight:700;background:#f0f5f3"><td>المجموع</td><td></td><td class="n">${fmt(o.emp)}</td><td class="n">${fmt(o.er)}</td><td class="n">${fmt(o.tot)}</td></tr>`;
+  const rows=[['الأجر الشهري',fmt(o.wage)],['الأجر الخاضع للاشتراك',fmt(o.subj)],['حصة الموظف',fmt(o.emp)],['حصة الجمعية',fmt(o.er)],['مجموع الاشتراك (الموظف + الجمعية)',fmt(o.tot)],['صافي الراتب بعد الخصم',fmt(r2(o.wage-o.emp))],
+    ['نسبة مجموع الاشتراك من الأجر',o.wage?pct(o.tot/o.wage):'—'],['نسبة تكلفة الجمعية من الأجر',o.wage?pct(o.er/o.wage):'—'],['التكلفة الكلية على الجمعية (الأجر + حصتها)',fmt(r2(o.wage+o.er))]];
+  const dd=n=>n==1?'يوم واحد':n==2?'يومان':n<=10?n+' أيام':n+' يوماً'; const hh=n=>n==1?'ساعة واحدة':n==2?'ساعتان':n<=10?n+' ساعات':n+' ساعة';
+  if(flex) rows.push(['أيام الاشتراك المحتسبة (كل 8 ساعات = يوم)',(o.days?dd(o.days):'لا شيء')+(o.bal?' + رصيد '+hh(o.bal):''),1]);
+  $('#r-sum').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[2]?'':'n'}" style="${r[2]?'text-align:left':''}"><b>${r[1]}</b></td></tr>`).join('');
+  $('#s-msg').innerHTML=o.warn.map(w=>`<div class="note ${w[0]}">${w[1]}</div>`).join('');
+}
+
+// ---------- bulk ----------
+const DEF=[[500,11,20,25],[600,8,24,25],[1100,1,44,25],[1200,1,48,25],[1500,33,30,50],[1500,2,60,25],[1550,6,31,50],[1600,8,32,50],[1700,13,68,25],[2000,1,25,80]]
+  .map(([s,n,h,r])=>({name:'معلمات راتب '+s+' ('+h+' ساعة)',n,type:'flex',nat:'sa',sys:'new',basic:'',house:'',hours:h,rate:r}));
+let B=[];
+try{const x=JSON.parse(localStorage.getItem('gosi_rows')||'null'); B=Array.isArray(x)&&x.length?x:DEF.map(o=>({...o}));}catch(e){B=DEF.map(o=>({...o}));}
+function save(){try{localStorage.setItem('gosi_rows',JSON.stringify(B));}catch(e){}}
+$('#b-month').value=CUR;
+const opt=(v,list)=>list.map(([k,t])=>`<option value="${k}"${k===v?' selected':''}>${t}</option>`).join('');
+function bulk(){
+  const m=$('#b-month').value||CUR;
+  const tb=$('#b-tab tbody'); let T={n:0,subj:0,emp:0,er:0,tot:0}; let warns=0;
+  tb.innerHTML=B.map((e,i)=>{const o=calc(e,m),n=+e.n||1; T.n+=n;T.subj+=o.subj*n;T.emp+=o.emp*n;T.er+=o.er*n;T.tot+=o.tot*n; if(o.warn.some(w=>w[0]==='err'))warns++;
+    const fl=e.type==='flex';
+    return `<tr data-i="${i}">
+    <td><input data-k="name" value="${(e.name||'').replace(/"/g,'&quot;')}" style="min-width:170px"></td>
+    <td><input data-k="n" type="number" min="1" value="${e.n||1}" style="width:62px;min-width:62px"></td>
+    <td><select data-k="type">${opt(e.type,[['flex','مرن'],['std','عادي']])}</select></td>
+    <td><select data-k="nat">${opt(e.nat,[['sa','سعودي'],['non','غير سعودي']])}</select></td>
+    <td><select data-k="sys">${opt(e.sys,[['new','الجديد'],['old','السابق']])}</select></td>
+    <td><input data-k="basic" type="number" value="${e.basic??''}" ${fl?'disabled':''}></td>
+    <td><input data-k="house" type="number" value="${e.house??''}" ${fl?'disabled':''}></td>
+    <td><input data-k="hours" type="number" value="${e.hours??''}" ${fl?'':'disabled'}></td>
+    <td><input data-k="rate" type="number" value="${e.rate??''}" ${fl?'':'disabled'}></td>
+    <td class="n">${fmt(o.subj)}</td><td class="n">${fmt(o.emp)}</td><td class="n">${fmt(o.er)}</td><td class="n">${fmt(o.tot)}</td>
+    <td class="n"><b>${fmt(o.tot*n)}</b>${o.warn.length?` <span class="tag ${o.warn.some(w=>w[0]==='err')?'bad':'mid'}" title="${o.warn.map(w=>w[1]).join(' | ')}">!</span>`:''}</td>
+    <td><button class="btn del sm" data-del="${i}">حذف</button></td></tr>`}).join('');
+  $('#b-tab tfoot').innerHTML=`<tr><td>المجموع</td><td>${fmt0(T.n)}</td><td colspan="7"></td><td class="n">${fmt(T.subj)}</td><td class="n">${fmt(T.emp)}</td><td class="n">${fmt(T.er)}</td><td></td><td class="n">${fmt(T.tot)}</td><td></td></tr>`;
+  $('#b-msg').innerHTML=warns?`<div class="note err">${warns} صف عليها ملاحظة (العلامة ! — مرّري الفأرة عليها للتفاصيل).</div>`:'';
+  save();
+}
+$('#b-tab').addEventListener('change',ev=>{const t=ev.target,tr=t.closest('tr');if(!tr||!t.dataset.k)return;B[+tr.dataset.i][t.dataset.k]=t.value;bulk();});
+$('#b-tab').addEventListener('click',ev=>{const d=ev.target.dataset.del;if(d!==undefined){B.splice(+d,1);bulk();}});
+$('#b-add').onclick=()=>{B.push({name:'',n:1,type:'std',nat:'sa',sys:'new',basic:'',house:'',hours:'',rate:''});bulk();};
+$('#b-reset').onclick=()=>{B=DEF.map(o=>({...o}));bulk();toast('تمت إعادة البيانات المبدئية');};
+$('#b-clear').onclick=()=>{B=[];bulk();};
+$('#b-month').onchange=bulk;
+$('#b-sysall').onchange=e=>{if(!e.target.value)return;B.forEach(r=>r.sys=e.target.value);e.target.value='';bulk();};
+const HEAD=['الاسم','العدد','نوع العقد','الجنسية','النظام','الراتب الأساسي','بدل السكن','الساعات','سعر الساعة'];
+$('#b-tpl').onclick=()=>copy(HEAD.join('\t')+'\nمثال: موظفة إدارية\t1\tعادي\tسعودي\tالجديد\t5000\t1250\t\t\nمثال: معلمة\t1\tمرن\tسعودي\tالسابق\t\t\t30\t50');
+$('#b-file').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=e=>{try{
+    if(typeof XLSX==='undefined') throw new Error('nolib');
+    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'}); const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+    const pick=(r,keys)=>{for(const k of Object.keys(r)){const kk=k.replace(/\s/g,'');if(keys.some(x=>kk.includes(x)))return r[k];}return '';};
+    const out=rows.map(r=>{const t=String(pick(r,['نوعالعقد','العقد'])),na=String(pick(r,['الجنسية'])),sy=String(pick(r,['النظام']));
+      return {name:String(pick(r,['الاسم','الإسم','الفئة'])),n:+pick(r,['العدد'])||1,type:/مرن/.test(t)||(!t&&pick(r,['الساعات'])!=='')?'flex':'std',
+        nat:/غير/.test(na)?'non':'sa',sys:/سابق|قديم/.test(sy)?'old':'new',basic:pick(r,['الأساسي','الاساسي']),house:pick(r,['السكن']),
+        hours:pick(r,['الساعات','إجماليساعات']),rate:pick(r,['سعرالساعة','أجرالساعة','اجرالساعة'])};}).filter(r=>r.name||r.basic||r.hours);
+    if(!out.length) throw new Error('empty');
+    B=out;bulk();toast('تم استيراد '+out.length+' صف');
+  }catch(err){toast(err.message==='nolib'?'تعذّر تحميل مكتبة Excel — جرّبي ملف CSV':'لم يُعثر على بيانات بالأعمدة المتوقعة');}};
+  rd.readAsArrayBuffer(f); ev.target.value='';};
+
+// ---------- reports ----------
+let chart=null;
+function agg(m,kind){
+  const T={n:0,wage:0,subj:0,penE:0,penR:0,sanE:0,sanR:0,haz:0,emp:0,er:0,tot:0,days:0,bal:0,flexN:0,bad:0}; const G={}; const det=[];
+  B.forEach(e=>{ if(kind!=='all'&&e.type!==kind) return; const o=calc(e,m),n=+e.n||1;
+    for(const k of ['wage','subj','penE','penR','sanE','sanR','haz','emp','er','tot']) T[k]+=o[k]*n; T.n+=n;
+    if(e.type==='flex'){T.flexN+=n;T.days+=(o.days||0)*n;T.bal+=(o.bal||0)*n;}
+    if(o.warn.some(w=>w[0]==='err')) T.bad+=n;
+    const g=(e.type==='flex'?'مرن':'عادي')+' — النظام '+(e.sys==='old'?'السابق':'الجديد')+(e.nat==='non'?' (غير سعودي)':'');
+    G[g]=G[g]||{n:0,wage:0,emp:0,er:0,tot:0}; G[g].n+=n;G[g].wage+=o.wage*n;G[g].emp+=o.emp*n;G[g].er+=o.er*n;G[g].tot+=o.tot*n;
+    det.push([e.name||'—',n,e.type==='flex'?'مرن':'عادي',e.sys==='old'?'السابق':'الجديد',o.wage,o.subj,o.emp,o.er,o.tot,o.emp*n,o.er*n,o.tot*n]);});
+  return {T,G,det};
+}
+function renderReports(){
+  const m=$('#b-month').value||CUR, kind=$('#rp-kind').value; const {T,G,det}=agg(m,kind);
+  $('#rp-sub').textContent='شهر '+mName(m)+' — '+fmt0(T.n)+' موظف/ة — صدر في '+new Date().toLocaleDateString('ar-SA-u-ca-gregory',{year:'numeric',month:'long',day:'numeric'});
+  const K=[['إجمالي الأجور',fmt(T.wage),''],['يُخصم من الموظفين',fmt(T.emp),'e'],['حصة الجمعية',fmt(T.er),'r'],['مجموع الاشتراك (الموظف + الجمعية)',fmt(T.tot),'t']];
+  $('#rp-kpi').innerHTML=K.map(k=>`<div class="kpi ${k[2]}"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('')+
+    `<div class="kpi"><span>التكلفة الكلية على الجمعية</span><b>${fmt(T.wage+T.er)}</b></div><div class="kpi"><span>نسبة حصة الجمعية من الأجور</span><b>${T.wage?pct(T.er/T.wage):'—'}</b></div>`+
+    `<div class="kpi"><span>التكلفة السنوية التقديرية للجمعية (حصتها × 12)</span><b>${fmt(T.er*12)}</b></div><div class="kpi ${T.bad?'r':''}"><span>عليهم ملاحظات</span><b>${fmt0(T.bad)}</b></div>`;
+  const br=[['المعاشات',T.penE,T.penR],['ساند',T.sanE,T.sanR],['الأخطار المهنية',0,T.haz]];
+  $('#rp-br').innerHTML=`<thead><tr><th>الفرع</th><th class="n">الموظفون</th><th class="n">الجمعية</th><th class="n">المجموع (الموظف + الجمعية)</th><th>الحصة</th></tr></thead><tbody>`+
+    br.map(b=>`<tr><td>${b[0]}</td><td class="n">${fmt(b[1])}</td><td class="n">${fmt(b[2])}</td><td class="n">${fmt(b[1]+b[2])}</td><td style="width:90px"><div class="bar"><i style="width:${T.tot?(b[1]+b[2])/T.tot*100:0}%;background:var(--g2)"></i></div></td></tr>`).join('')+
+    `</tbody><tfoot><tr><td>المجموع</td><td class="n">${fmt(T.emp)}</td><td class="n">${fmt(T.er)}</td><td class="n">${fmt(T.tot)}</td><td></td></tr></tfoot>`;
+  $('#rp-flexdays').innerHTML=T.flexN?`<div class="note info">عقود مرن: ${fmt0(T.flexN)} معلمة — مجموع أيام الاشتراك المحتسبة هذا الشهر ${fmt0(T.days)} يوم اشتراك (كل 8 ساعات = يوم)، ورصيد ساعات متبقٍ ${fmt0(T.bal)} ساعة. متوسط ${(T.days/T.flexN).toFixed(1)} يوم اشتراك للمعلمة.</div>`:'';
+  $('#rp-grp').innerHTML=`<thead><tr><th>الفئة</th><th class="n">العدد</th><th class="n">الأجور</th><th class="n">الموظفون</th><th class="n">الجمعية</th><th class="n">المجموع (الموظف + الجمعية)</th></tr></thead><tbody>`+
+    Object.entries(G).map(([g,v])=>`<tr><td>${g}</td><td class="n">${fmt0(v.n)}</td><td class="n">${fmt(v.wage)}</td><td class="n">${fmt(v.emp)}</td><td class="n">${fmt(v.er)}</td><td class="n">${fmt(v.tot)}</td></tr>`).join('')+'</tbody>';
+  // projection
+  const N=+$('#rp-n').value, L=[],E=[],R=[],Y={};
+  for(let k=0;k<N;k++){const mm=addM(m,k),a=agg(mm,kind).T;L.push(mName(mm));E.push(r2(a.emp));R.push(r2(a.er));const y=mm.slice(0,4);Y[y]=Y[y]||{c:0,emp:0,er:0};Y[y].c++;Y[y].emp+=a.emp;Y[y].er+=a.er;}
+  $('#rp-year').innerHTML=`<thead><tr><th>السنة</th><th class="n">عدد الأشهر</th><th class="n">الموظفون</th><th class="n">الجمعية</th><th class="n">المجموع (الموظف + الجمعية)</th></tr></thead><tbody>`+
+    Object.entries(Y).map(([y,v])=>`<tr><td>${y}</td><td class="n">${v.c}</td><td class="n">${fmt(v.emp)}</td><td class="n">${fmt(v.er)}</td><td class="n">${fmt(v.emp+v.er)}</td></tr>`).join('')+'</tbody>';
+  try{ if(typeof Chart==='undefined') throw 0;
+    if(chart) chart.destroy();
+    chart=new Chart($('#rp-chart'),{type:'bar',data:{labels:L,datasets:[{label:'حصة الموظفين',data:E,backgroundColor:'#167a62'},{label:'حصة الجمعية',data:R,backgroundColor:'#b88a2e'}]},
+      options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,ticks:{font:{family:'IBM Plex Sans Arabic'}}},y:{stacked:true,ticks:{callback:v=>fmt0(v)}}},
+      plugins:{legend:{rtl:true,labels:{font:{family:'IBM Plex Sans Arabic'}}},tooltip:{rtl:true,callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}}}});
+    $('#rp-chart').style.height='320px'; $('#rp-nochart').classList.add('hide');
+  }catch(e){$('#rp-chart').classList.add('hide');$('#rp-nochart').classList.remove('hide');}
+  $('#rp-det').innerHTML=`<thead><tr><th>الاسم / الفئة</th><th class="n">العدد</th><th>العقد</th><th>النظام</th><th class="n">الأجر للفرد</th><th class="n">الخاضع للفرد</th><th class="n">الموظف للفرد</th><th class="n">الجمعية للفرد</th><th class="n">المجموع للفرد</th><th class="n">الموظفون (المجموعة)</th><th class="n">الجمعية (المجموعة)</th><th class="n">المجموع (المجموعة)</th></tr></thead><tbody>`+
+    det.map(d=>`<tr><td>${d[0]}</td><td class="n">${d[1]}</td><td>${d[2]}</td><td>${d[3]}</td>${d.slice(4).map((x,i)=>`<td class="n">${i==7?'<b>':''}${fmt(x)}${i==7?'</b>':''}</td>`).join('')}</tr>`).join('')+'</tbody>'+
+    `<tfoot><tr><td>المجموع</td><td class="n">${fmt0(T.n)}</td><td colspan="6"></td><td class="n">${fmt(T.emp)}</td><td class="n">${fmt(T.er)}</td><td class="n">${fmt(T.tot)}</td></tr></tfoot>`;
+  window._rep={m,T,G,det,Y};
+}
+$('#rp-kind').onchange=renderReports; $('#rp-n').onchange=renderReports;
+$('#rp-copy').onclick=()=>{const r=window._rep;if(!r)return;const T=r.T,L=[];
+  L.push('تقرير اشتراكات التأمينات الاجتماعية\t'+mName(r.m));L.push('');
+  L.push(['البند','المبلغ'].join('\t'));
+  [['عدد الموظفين',T.n],['إجمالي الأجور',T.wage],['يُخصم من الموظفين',T.emp],['حصة الجمعية',T.er],['مجموع الاشتراك (الموظف + الجمعية)',T.tot],['المعاشات - الموظفون',T.penE],['المعاشات - الجمعية',T.penR],['ساند - الموظفون',T.sanE],['ساند - الجمعية',T.sanR],['الأخطار المهنية',T.haz]].forEach(x=>L.push(x[0]+'\t'+r2(x[1])));
+  L.push('');L.push(['الاسم / الفئة','العدد','العقد','النظام','الأجر للفرد','الخاضع للفرد','الموظف للفرد','الجمعية للفرد','المجموع للفرد','الموظفون (المجموعة)','الجمعية (المجموعة)','المجموع (المجموعة)'].join('\t'));
+  r.det.forEach(d=>L.push(d.map(x=>typeof x==='number'?r2(x):x).join('\t')));
+  L.push('');L.push('السنة\tالموظفون\tالجمعية\tالإجمالي');Object.entries(r.Y).forEach(([y,v])=>L.push([y,r2(v.emp),r2(v.er),r2(v.emp+v.er)].join('\t')));
+  copy(L.join('\n'));};
+
+// ---------- rules ----------
+$('#rl-steps').innerHTML=STEPS.map(([d,v])=>`<tr><td>${d==='2024-07'?'3 يوليو 2024':'1 يوليو '+d.slice(0,4)}</td><td class="n">${pct(v)}</td></tr>`).join('');
+
+single(); bulk(); route();
+})();
+</script>
+</body>
+</html>
